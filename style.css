@@ -478,40 +478,72 @@ footer {
 }
 
 /* --- RESPONSIVE (Mobitel) --- */
-@media (max-width: 600px) {
-    .dashboard-grid { grid-template-columns: 1fr; }
-    .sidebar { order: -1; }
-    .hero-content h1 { font-size: 2.2rem; }
-    header { flex-direction: column; gap: 10px; }
-    .mission-item:hover { transform: none; }
+@media (max-width: 750px) {
+    /* 1. RESETIRANJE STRANICE - sprječava onaj "uzumirani" osjećaj */
+    html, body {
+        overflow-x: hidden; /* Zabranjuje micanje lijevo-desno */
+        height: auto; 
+    }
+
+    /* 2. HEADER - stisnut da ostane više mjesta za lekcije */
     header {
-        padding: 19px;
-        justify-content: center; /* Centriraj sve na mobitelu */
-        flex-direction: column; /* Složi ime iznad linkova */
-        gap: 4px;
+        padding: 10px;
+        flex-direction: column;
+        gap: 5px;
     }
+    header h1, .logo { font-size: 1rem !important; }
+    .nav-links { gap: 8px; font-size: 0.75rem; }
 
-    .nav-links {
-        gap: 10px; /* Smanji razmak između linkova da stanu u jedan red */
-        font-size: 0.8rem;
-    }
-
-    .nav-links a {
-        padding: 5px; /* Veća površina za prst, ali manji font */
-    }
-
-    /* Ako imaš logo ili naslov, smanji ga malo */
-    header h1, .logo {
-        font-size: 1.1rem !important;
-        margin: 0;
-    }
+    /* 3. GLAVNA MREŽA - pretvaramo je u jednostavnu listu */
     .dashboard-grid {
-        grid-template-columns: 1fr; /* Na mobitelu ide jedno ispod drugog */
+        display: block !important; /* Gasi grid u potpunosti */
+        width: 100%;
+        padding: 10px;
+        height: auto;
+    }
+
+    /* 4. SIDEBAR - radimo ga kompaktnim */
+    .sidebar {
+        display: flex;
+        flex-direction: row; /* Stavlja XP i Progres jedno pored drugog */
+        flex-wrap: nowrap;   /* Ne dopušta da se razbiju u dva reda ako ne moraju */
+        gap: 8px;
+        margin-bottom: 15px;
+        width: 100% !important;
+    }
+
+    .sidebar-box {
+        flex: 1;
+        padding: 8px !important;
+        margin: 0 !important;
+        background: #fff;
+        border-radius: 10px;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+    }
+
+    .sidebar-box h3 { font-size: 0.7rem !important; margin-bottom: 2px; }
+    .sidebar-box p { font-size: 0.7rem !important; }
+    .sidebar-box .btn-primary { padding: 5px; font-size: 0.7rem; }
+
+    /* 5. LEKCIJE - rješavamo problem "ogromnih" kartica */
+    #dashboard-container {
         height: auto;
         overflow: visible;
     }
-    .sidebar {
-        position: static;
-        order: -1; /* Sidebar ide na vrh na mobitelu */
+
+    .mission-item {
+        width: 100% !important;
+        margin: 0 0 10px 0 !important;
+        padding: 12px !important;
+        box-sizing: border-box; /* Ključno da padding ne širi karticu izvan ekrana */
+    }
+
+    .mission-item span {
+        font-size: 0.95rem !important;
+    }
+
+    .status-tag {
+        font-size: 0.7rem;
+        padding: 3px 8px;
     }
 }
