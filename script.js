@@ -124,6 +124,19 @@ function renderDashboard() {
         container.appendChild(quizBox);
     }
     updateProgressSidebar();
+
+    if (lastCompletedElement) {
+        // Čekamo mrvicu da se sve iscrta, pa skrolamo
+        setTimeout(() => {
+            lastCompletedElement.scrollIntoView({ 
+                behavior: 'smooth', // Da klizi, a ne da "skoči"
+                block: 'center'    // Stavi je u sredinu ekrana
+            });
+            
+            // Opcionalno: Dodaj mali sjaj toj zadnjoj lekciji da zna da je to TA
+            lastCompletedElement.style.boxShadow = "0 0 20px rgba(250, 177, 160, 0.5)";
+        }, 300);
+    }
 }
 
 // --- FUNKCIJE ZA LEKCIJE ---
@@ -218,13 +231,24 @@ function renderQuizList() {
 function updateProgressSidebar() {
     const totalMissions = Object.keys(courseData).length;
     const completedMissions = completedLessons.length;
-    const percentage = (completedMissions / totalMissions) * 100;
+    
+    // Izračun postotka
+    const percentage = totalMissions > 0 ? Math.round((completedMissions / totalMissions) * 100) : 0;
 
+    // 1. Ažuriraj širinu Progress Bara
     const progressBar = document.getElementById('main-progress-bar');
-    if (progressBar) progressBar.style.width = percentage + '%';
+    if (progressBar) {
+        progressBar.style.width = percentage + '%';
+    }
 
+    // 2. Ažuriraj tekst (sad piše postotak + broj misija)
     const statsText = document.getElementById('progress-stats');
-    if (statsText) statsText.innerText = `${completedMissions}/${totalMissions} Missions Completed`;
+    if (statsText) {
+        statsText.innerHTML = `
+            <span style="font-size: 1.5rem; font-weight: 900; color: #244b56;">${percentage}%</span><br>
+            <small style="color: #636e72;">${completedMissions} of ${totalMissions} missions done</small>
+        `;
+    }
 }
 
 function speakCurrent() {

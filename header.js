@@ -6,6 +6,7 @@ document.addEventListener("DOMContentLoaded", function() {
             <a href="index.html">Home</a>
             <a href="vocabulary.html">Vocabulary</a>
             <a href="lessons.html">Lessons</a>
+            <a href="quizzes.html">Quizzes</a>
         </nav>
     </header>
     `;
