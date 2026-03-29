@@ -429,6 +429,42 @@ header nav a:hover {
     margin: 20px auto;
     box-shadow: 0 10px 30px rgba(0,0,0,0.05); 
 }
+.lesson-card {
+    /* OVO SU KLJUČNE STVARI */
+    width: 100%;
+    max-width: 900px;      /* Da ne bude preširoka na desktopu */
+    min-height: 250px;     /* FIKSNA VISINA: Prilagodi brojku (npr. 200px ili 300px) */
+    
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* Centriraj tekst okomito unutar kartice */
+    align-items: center;     /* Centriraj tekst vodoravno */
+    text-align: center;
+    
+    background: white;
+    padding: 30px;
+    border-radius: 20px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+    margin: 20px auto;
+    box-sizing: border-box; /* Da padding ne "napuše" karticu van ekrana */
+}
+
+/* Stil za njemački tekst unutar kartice */
+.lesson-card h2 {
+    font-size: 1.8rem;
+    margin-bottom: 10px;
+    color: #2d3436;
+    min-height: 2.2em; /* Osigurava prostor za barem dva reda teksta */
+    display: flex;
+    align-items: center;
+}
+
+/* Stil za prijevod */
+.lesson-card p {
+    font-size: 1.1rem;
+    color: #636e72;
+    font-style: italic;
+}
 
 .german-box { 
     background: #fff9f8; 
