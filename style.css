@@ -75,6 +75,58 @@ header nav a:hover {
     color: #00b894;
 }
 
+.story-input:focus {
+    border-bottom: 2px solid #fab1a0;
+}
+
+.word-bank {
+    margin-bottom: 20px;
+    padding: 15px;
+    background: #fff;
+    border-radius: 15px;
+    box-shadow: inset 0 0 10px rgba(0,0,0,0.05);
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: center;
+}
+.story-paragraph {
+    line-height: 2.5;
+    font-size: 1.2rem;
+    color: #2d3436 !important; /* Forsiraj tamnu boju */
+    padding: 20px;
+    text-align: left;
+}
+
+.story-input {
+    border: none;
+    border-bottom: 2px solid #fab1a0;
+    background: #fff5f2;
+    width: 100px;
+    text-align: center;
+    font-weight: bold;
+    color: #e67e22;
+    margin: 0 5px;
+    border-radius: 5px 5px 0 0;
+}
+
+.draggable-word {
+    display: inline-block;
+    padding: 8px 15px;
+    margin: 5px;
+    background: white;
+    border: 2px solid #244b56;
+    border-radius: 10px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: 0.2s;
+}
+
+.draggable-word:hover {
+    background: #244b56;
+    color: white;
+}
+
 /* --- SIDEBAR --- */
 .sidebar {
     display: flex;
