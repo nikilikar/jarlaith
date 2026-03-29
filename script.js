@@ -136,8 +136,10 @@ function renderDashboard() {
     const container = document.getElementById('dashboard-container');
     if (!container) return;
     container.innerHTML = ''; 
-    const keys = Object.entries(courseData);
     
+    const keys = Object.entries(courseData);
+    let lastCompletedElement = null; // Inicijaliziramo varijablu
+
     keys.forEach(([key, data], index) => {
         const isDone = completedLessons.includes(key);
         const missionBox = document.createElement('div');
@@ -152,14 +154,21 @@ function renderDashboard() {
             </div>
             <div class="status-tag">${isDone ? '✓ Done' : 'New'}</div>
         `;
-        missionBox.onclick = () => { localStorage.setItem('currentLessonKey', key); window.location.href = 'training.html'; };
+
+        missionBox.onclick = () => { 
+            localStorage.setItem('currentLessonKey', key); 
+            window.location.href = 'training.html'; 
+        };
+
         container.appendChild(missionBox);
 
-        // --- DINAMIČKO UBACIVANJE KVIZOVA NA DASHBOARD ---
-        // Provjeravamo odgovara li trenutni index nekom kvizu iz quizList
-        // Index + 1 jer index kreće od 0 (0,1,2 -> to je 3. lekcija)
-        const matchingQuiz = quizList.find(q => q.requiredMissions === (index + 1));
+        // Ako je ova lekcija završena, spremi je kao "zadnju viđenu" završenu
+        if (isDone) {
+            lastCompletedElement = missionBox;
+        }
 
+        // --- DINAMIČKO UBACIVANJE KVIZOVA ---
+        const matchingQuiz = quizList.find(q => q.requiredMissions === (index + 1));
         if (matchingQuiz && completedLessons.length >= matchingQuiz.requiredMissions) {
             const quizBox = document.createElement('div');
             quizBox.className = 'mission-item quiz-unlock-special'; 
@@ -175,11 +184,26 @@ function renderDashboard() {
                 <div class="status-tag" style="background:#fdcb6e; color:#d35400;">READY 🔥</div>
             `;
             container.appendChild(quizBox);
+            
+            // Ako je kviz otključan, on postaje novi fokus za skrolanje
+            lastCompletedElement = quizBox;
         }
     });
+
+    // SKROLANJE: Izvršava se samo jednom nakon što je petlja gotova
+    if (lastCompletedElement) {
+        setTimeout(() => {
+            lastCompletedElement.scrollIntoView({ 
+                behavior: 'smooth', 
+                block: 'center' 
+            });
+            lastCompletedElement.style.boxShadow = "0 0 20px rgba(250, 177, 160, 0.5)";
+            lastCompletedElement.style.transition = "box-shadow 0.5s ease";
+        }, 300);
+    }
+
     updateProgressSidebar();
 }
-
 function updateUI() {
     const data = courseData[currentCategory];
     if (!data) return;
