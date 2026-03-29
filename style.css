@@ -478,74 +478,78 @@ footer {
 }
 
 @media (max-width: 750px) {
-    /* 1. Zaključaj ekran da se ne skrola cijela stranica */
+    /* 1. VRAĆAMO NORMALAN SKROL STRANICE */
     html, body {
-        height: 100vh;
-        overflow: hidden; 
+        height: auto !important;
+        overflow: visible !important;
+    }
+
+    /* 2. HEADER - vraćamo tvoj stari stil (samo ga malo centriramo) */
+    header {
         display: flex;
         flex-direction: column;
-    }
-
-    /* 2. Fixni naslov na vrhu */
-    .page-title {
-        flex-shrink: 0;
-        padding: 10px;
-        margin: 0;
-        background: #f5f6fa;
-        z-index: 10;
-    }
-
-    /* 3. SREDINA: Skrolajući blok za lekcije i vokabular */
-    .dashboard-grid {
-        display: block !important; /* Gasi grid stupce */
-        flex: 1;                  /* Uzima sav prostor u sredini */
-        overflow-y: auto !important; /* SAMO SE OVO SKROLA */
-        padding: 15px;
-        -webkit-overflow-scrolling: touch;
-    }
-
-    /* Kartice unutar skrola */
-    .mission-item {
-        width: 100% !important;
-        margin-bottom: 12px;
-        box-sizing: border-box;
-    }
-
-    /* 4. FIXNI BOTTOM DASHBOARD (Bivši Sidebar) */
-    .sidebar {
-        flex-shrink: 0;
-        display: flex !important;
-        flex-direction: row !important; /* Progres i Kviz gumb jedan pored drugog */
+        align-items: center;
+        padding: 15px !important;
         gap: 10px;
-        padding: 10px;
-        background: white;
-        border-top: 2px solid #eee;
-        box-shadow: 0 -5px 15px rgba(0,0,0,0.05);
-        position: relative; /* Više nije sa strane nego na dnu */
+    }
+
+    /* 3. LAYOUT - jedna kolona bez Grid komplikacija */
+    .dashboard-grid {
+        display: flex !important;
+        flex-direction: column !important; /* Sve ide jedno ISPOD drugog */
+        width: 100% !important;
+        max-width: 100% !important;
+        height: auto !important;
+        padding: 10px !important;
+        gap: 20px;
+    }
+
+    /* 4. SIDEBAR (PROGRES I KVIZ) - stavljamo ga na VRH */
+    .sidebar {
+        order: -1; /* Ovo ga baca iznad lekcija */
+        width: 100% !important;
+        display: flex !important;
+        flex-direction: column !important;
+        gap: 10px;
+        position: static !important;
     }
 
     .sidebar-box {
-        flex: 1;
+        width: 100% !important;
         margin: 0 !important;
-        padding: 8px !important;
-        box-shadow: none !important;
-        background: #f9f9f9;
-        border-radius: 8px;
+        padding: 15px !important;
+        box-sizing: border-box;
     }
 
-    /* Smanji sve unutar bottom bara da ne zauzima puno mjesta */
-    .sidebar-box h3 { font-size: 0.7rem !important; margin: 0; }
-    .sidebar-box p { font-size: 0.65rem !important; margin: 2px 0; }
-    .progress-bar-container { height: 8px !important; }
-    .btn-primary { 
-        padding: 8px !important; 
-        font-size: 0.75rem !important; 
-        width: 100%;
+    /* 5. BLOK S LEKCIJAMA (KARTICE) */
+    #dashboard-container, #vocab-category-list {
+        display: flex !important;
+        flex-direction: column !important;
+        gap: 12px;
+        width: 100% !important;
+        height: 400px; /* FIKSNA VISINA BLOKA ZA SKROLANJE */
+        overflow-y: auto !important; /* Omogućuje skrolanje unutar ovog bloka */
+        background: rgba(0,0,0,0.02); /* Blaga pozadina da se vidi da je to zaseban dio */
+        padding: 10px !important;
+        border-radius: 15px;
+        border: 1px solid #ddd;
     }
 
-    /* Fix za Vocabulary Flashcards modal da ne pobjegne */
-    #flashcard-modal {
-        position: fixed;
-        z-index: 1000;
+    /* KARTICE - da budu velike i pregledne kao prije */
+    .mission-item {
+        width: 100% !important;
+        min-height: 80px;
+        box-sizing: border-box !important;
+        margin: 0 !important;
+        display: flex !important;
+        justify-content: space-between;
+        align-items: center;
+        padding: 20px !important;
+    }
+
+    /* Fix za Vocabulary gumb unutar kartice */
+    .mission-item button {
+        padding: 8px 15px !important;
+        font-size: 0.9rem !important;
     }
 }
