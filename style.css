@@ -477,73 +477,75 @@ footer {
     margin-top: auto;
 }
 
-/* --- RESPONSIVE (Mobitel) --- */
 @media (max-width: 750px) {
-    /* 1. RESETIRANJE STRANICE - sprječava onaj "uzumirani" osjećaj */
+    /* 1. Zaključaj ekran da se ne skrola cijela stranica */
     html, body {
-        overflow-x: hidden; /* Zabranjuje micanje lijevo-desno */
-        height: auto; 
-    }
-
-    /* 2. HEADER - stisnut da ostane više mjesta za lekcije */
-    header {
-        padding: 10px;
-        flex-direction: column;
-        gap: 5px;
-    }
-    header h1, .logo { font-size: 1rem !important; }
-    .nav-links { gap: 8px; font-size: 0.75rem; }
-
-    /* 3. GLAVNA MREŽA - pretvaramo je u jednostavnu listu */
-    .dashboard-grid {
-        display: block !important; /* Gasi grid u potpunosti */
-        width: 100%;
-        padding: 10px;
-        height: auto;
-    }
-
-    /* 4. SIDEBAR - radimo ga kompaktnim */
-    .sidebar {
+        height: 100vh;
+        overflow: hidden; 
         display: flex;
-        flex-direction: row; /* Stavlja XP i Progres jedno pored drugog */
-        flex-wrap: nowrap;   /* Ne dopušta da se razbiju u dva reda ako ne moraju */
-        gap: 8px;
-        margin-bottom: 15px;
+        flex-direction: column;
+    }
+
+    /* 2. Fixni naslov na vrhu */
+    .page-title {
+        flex-shrink: 0;
+        padding: 10px;
+        margin: 0;
+        background: #f5f6fa;
+        z-index: 10;
+    }
+
+    /* 3. SREDINA: Skrolajući blok za lekcije i vokabular */
+    .dashboard-grid {
+        display: block !important; /* Gasi grid stupce */
+        flex: 1;                  /* Uzima sav prostor u sredini */
+        overflow-y: auto !important; /* SAMO SE OVO SKROLA */
+        padding: 15px;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    /* Kartice unutar skrola */
+    .mission-item {
         width: 100% !important;
+        margin-bottom: 12px;
+        box-sizing: border-box;
+    }
+
+    /* 4. FIXNI BOTTOM DASHBOARD (Bivši Sidebar) */
+    .sidebar {
+        flex-shrink: 0;
+        display: flex !important;
+        flex-direction: row !important; /* Progres i Kviz gumb jedan pored drugog */
+        gap: 10px;
+        padding: 10px;
+        background: white;
+        border-top: 2px solid #eee;
+        box-shadow: 0 -5px 15px rgba(0,0,0,0.05);
+        position: relative; /* Više nije sa strane nego na dnu */
     }
 
     .sidebar-box {
         flex: 1;
-        padding: 8px !important;
         margin: 0 !important;
-        background: #fff;
-        border-radius: 10px;
-        box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        padding: 8px !important;
+        box-shadow: none !important;
+        background: #f9f9f9;
+        border-radius: 8px;
     }
 
-    .sidebar-box h3 { font-size: 0.7rem !important; margin-bottom: 2px; }
-    .sidebar-box p { font-size: 0.7rem !important; }
-    .sidebar-box .btn-primary { padding: 5px; font-size: 0.7rem; }
-
-    /* 5. LEKCIJE - rješavamo problem "ogromnih" kartica */
-    #dashboard-container {
-        height: auto;
-        overflow: visible;
+    /* Smanji sve unutar bottom bara da ne zauzima puno mjesta */
+    .sidebar-box h3 { font-size: 0.7rem !important; margin: 0; }
+    .sidebar-box p { font-size: 0.65rem !important; margin: 2px 0; }
+    .progress-bar-container { height: 8px !important; }
+    .btn-primary { 
+        padding: 8px !important; 
+        font-size: 0.75rem !important; 
+        width: 100%;
     }
 
-    .mission-item {
-        width: 100% !important;
-        margin: 0 0 10px 0 !important;
-        padding: 12px !important;
-        box-sizing: border-box; /* Ključno da padding ne širi karticu izvan ekrana */
-    }
-
-    .mission-item span {
-        font-size: 0.95rem !important;
-    }
-
-    .status-tag {
-        font-size: 0.7rem;
-        padding: 3px 8px;
+    /* Fix za Vocabulary Flashcards modal da ne pobjegne */
+    #flashcard-modal {
+        position: fixed;
+        z-index: 1000;
     }
 }
