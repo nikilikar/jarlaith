@@ -7,32 +7,33 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <main>
-        <div class="lesson-card">
-            <div class="badge" id="lesson-topic">Topic: Introductions</div>
-            
-            <div class="phrase-section">
-                <p class="lang-label">English</p>
-                <h2 id="english-text">I would like a beer, please.</h2>
+    <main class="dashboard-wrapper">
+    <div class="dashboard-header">
+        <h1>Your Missions 🚀</h1>
+        <p>Click a mission to start your German training.</p>
+    </div>
+
+    <div class="dashboard-grid">
+        <section id="dashboard-container" class="missions-list">
+            </section>
+
+        <aside class="sidebar">
+            <div class="sidebar-box progress-box">
+                <h3>Overall Progress</h3>
+                <div class="progress-bar-container">
+                    <div id="main-progress-bar" class="progress-fill"></div>
+                </div>
+                <p id="progress-stats">0/0 Missions Completed</p>
             </div>
 
-            <div class="phrase-section german-box">
-                <p class="lang-label">German</p>
-                <h2 id="german-text">Ich hätte gerne ein Bier, bitte.</h2>
+            <div class="sidebar-box quiz-link-box">
+                <h3>Knowledge Check</h3>
+                <p>Think you've mastered the slang?</p>
+                <a href="quizzes.html" class="quiz-cta">Go to Quizzes ⚡</a>
             </div>
-
-            <div class="lesson-controls">
-                <button class="btn-audio" onclick="speakCurrent()">🔊 Pronounce</button>
-                <button class="btn-next" onclick="nextLesson()">Next Phrase →</button>
-            </div>
-            
-            <p class="progress" id="progress-text">Lesson 1 of 3</p>
-        </div>
-    </main>
-
-    <footer>
-        Made with ❤️ for Jarlaith's Erasmus 2026
-    </footer>
+        </aside>
+    </div>
+</main>
 
     <script src="header.js"></script>
     <script src="script.js"></script>

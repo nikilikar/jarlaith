@@ -1,70 +1,124 @@
-const lessons = [
-    { topic: "At the Bar", english: "I would like a beer, please.", german: "Ich hätte gerne ein Bier, bitte." },
-    { topic: "Meeting People", english: "My name is Jarlaith.", german: "Mein Name ist Jarlaith." },
-    { topic: "Erasmus Life", english: "Where is the library?", german: "Wo ist die Bibliothek?" },
-    { topic: "Shopping", english: "How much does this cost?", german: "Wie viel kostet das?" }
-];
+const courseData = {
+    "basic-survival": {
+        title: "🥨 Basic Survival",
+        phrases: [
+            { english: "One beer, please!", german: "Ein Bier, bitte!" },
+            { english: "Where is the toilet?", german: "Wo ist die Toilette?" },
+            { english: "Check, please!", german: "Die Rechnung, bitte!" }
+        ]
+    },
+    "latinas-section": {
+        title: "🍑 The 'Special' Mission",
+        phrases: [
+            { english: "Are you a big booty latina?", german: "Bist du eine 'Big Booty Latina'?" },
+            { english: "I love your energy.", german: "Ich liebe deine Energie." },
+            { english: "You are very beautiful.", german: "Du bist sehr schön." }
+        ]
+    },
+    "erasmus-party": {
+        title: "🍻 Erasmus Party Animal",
+        phrases: [
+            { english: "Another round!", german: "Noch eine Runde!" },
+            { english: "I lost my friends.", german: "Ich habe meine Freunde verloren." },
+            { english: "Let's go to another club.", german: "Lass uns in einen anderen Club gehen." }
+        ]
+    }
+};
 
-// 1. Provjera progresa odmah pri učitavanju
+let currentCategory = localStorage.getItem('currentLessonKey') || "basic-survival";
+let currentIndex = parseInt(localStorage.getItem(currentCategory + '_progress')) || 0;
+let completedLessons = JSON.parse(localStorage.getItem('completedLessons')) || [];
+
 document.addEventListener("DOMContentLoaded", () => {
-    const savedProgress = localStorage.getItem('germanProgress');
+    if (document.getElementById('dashboard-container')) {
+        renderDashboard();
+    }
+    
     const actionBtn = document.getElementById('main-action-btn');
-
-    if (savedProgress && savedProgress > 0) {
-        // Ako se već vratio, promijeni tekst gumba
-        actionBtn.innerText = "Continue Lesson " + (parseInt(savedProgress) + 1) + " →";
-        // Postavi index na spremljeno mjesto
-        currentIndex = parseInt(savedProgress);
+    if (actionBtn && localStorage.getItem('any_progress_made')) {
+        actionBtn.innerText = "Continue Learning →";
     }
 
-    if (savedProgress) {
-    document.getElementById('main-action-btn').innerText = "Continue Learning →";
-}
+    if (document.getElementById('english-text')) {
+        updateUI();
+    }
 });
 
-let currentIndex = 0;
+function renderDashboard() {
+    const container = document.getElementById('dashboard-container');
+    if (!container) return;
+    
+    container.innerHTML = ''; 
 
-function startLearning() {
-    document.getElementById('welcome-screen').style.display = 'none';
-    document.getElementById('lesson-screen').style.display = 'block';
-    updateUI();
+    for (const [key, data] of Object.entries(courseData)) {
+        const isDone = completedLessons.includes(key);
+        const missionBox = document.createElement('div');
+        missionBox.className = `mission-item ${isDone ? 'completed' : ''}`;
+        missionBox.onclick = () => startSpecificLesson(key);
+        
+        missionBox.innerHTML = `
+            <div>
+                <span style="font-size: 1.2rem; display: block; margin-bottom: 5px;">${data.title}</span>
+                <span style="font-size: 0.8rem; color: #636e72;">${data.phrases.length} phrases to master</span>
+            </div>
+            <div class="status-tag">${isDone ? '✓ Done' : 'New'}</div>
+        `;
+        container.appendChild(missionBox);
+    }
+    updateProgressSidebar();
 }
 
-function goBackToWelcome() {
-    document.getElementById('welcome-screen').style.display = 'block';
-    document.getElementById('lesson-screen').style.display = 'none';
+function updateProgressSidebar() {
+    const totalMissions = Object.keys(courseData).length;
+    const completedMissions = completedLessons.length;
+    const percentage = (completedMissions / totalMissions) * 100;
+
+    const progressBar = document.getElementById('main-progress-bar');
+    if (progressBar) progressBar.style.width = percentage + '%';
+
+    const statsText = document.getElementById('progress-stats');
+    if (statsText) statsText.innerText = `${completedMissions}/${totalMissions} Missions Completed`;
+}
+
+function startSpecificLesson(key) {
+    localStorage.setItem('currentLessonKey', key);
+    localStorage.setItem('any_progress_made', 'true');
+    localStorage.setItem(key + '_progress', 0); 
+    
+    // OVDJE JE PROMJENA: Šaljemo ga na training.html, ne na lessons.html
+    window.location.href = 'training.html'; 
 }
 
 function nextLesson() {
-    currentIndex = (currentIndex + 1) % lessons.length;
-    // SPREMI PROGRES u LocalStorage
-    localStorage.setItem('germanProgress', currentIndex);
-    updateUI();
+    const phrases = courseData[currentCategory].phrases;
+    if (currentIndex < phrases.length - 1) {
+        currentIndex++;
+        localStorage.setItem(currentCategory + '_progress', currentIndex);
+        updateUI();
+    } else {
+        if (!completedLessons.includes(currentCategory)) {
+            completedLessons.push(currentCategory);
+            localStorage.setItem('completedLessons', JSON.stringify(completedLessons));
+        }
+        alert("🎉 Mission Accomplished! Check your progress on the dashboard.");
+        window.location.href = 'lessons.html'; // Vraća ga na listu (dashboard)
+    }
 }
 
 function updateUI() {
-    document.getElementById('lesson-topic').innerText = "Topic: " + lessons[currentIndex].topic;
-    document.getElementById('english-text').innerText = lessons[currentIndex].english;
-    document.getElementById('german-text').innerText = lessons[currentIndex].german;
-    document.getElementById('progress-text').innerText = `Phrase ${currentIndex + 1} of ${lessons.length}`;
-}
-
-function speak(text) {
-    const utterance = new SpeechSynthesisUtterance(text);
-    utterance.lang = 'de-DE';
-    utterance.rate = 0.9;
-    window.speechSynthesis.speak(utterance);
+    const data = courseData[currentCategory];
+    const phrase = data.phrases[currentIndex];
+    if (document.getElementById('lesson-topic')) {
+        document.getElementById('lesson-topic').innerText = data.title;
+        document.getElementById('english-text').innerText = phrase.english;
+        document.getElementById('german-text').innerText = phrase.german;
+        document.getElementById('progress-text').innerText = `Phrase ${currentIndex + 1} of ${data.phrases.length}`;
+    }
 }
 
 function speakCurrent() {
     const text = document.getElementById('german-text').innerText;
-    speak(text);
-}
-function scrollToLessons() {
-    document.getElementById('welcome-hero').style.display = 'none';
-    document.getElementById('lesson-section').style.display = 'flex';
-    
-    updateUI();
-    
-    window.scrollTo(0, 0);
+    const utterance = new SpeechSynthesisUtterance(text);
+    utterance.lang = 'de-DE';
+    window.speechSynthesis.speak(utterance);
 }

@@ -1,71 +1,7 @@
+/* --- OSNOVNE POSTAVKE --- */
 * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
 
-body { background: #bddae4; display: flex; flex-direction: column; min-height: 100vh; color: #1c1e21; }
-.home-main {
-    display: block;
-    width: 100%;
-    background: white;
-}
-
-.hero {
-    height: 80vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-    padding: 0 20px;
-}
-
-.hero-content h1 {
-    font-size: 3.5rem;
-    line-height: 1.1;
-    margin-bottom: 20px;
-    color: #121e22;
-}
-
-.highlight {
-    color: #3e0c01;
-}
-
-.emoji-badge {
-    display: inline-block;
-    padding: 10px 20px;
-    background: #f0f2f5;
-    border-radius: 50px;
-    font-weight: 600;
-    margin-bottom: 20px;
-}
-
-.love-note {
-    font-size: 1.2rem;
-    color: #151819;
-    max-width: 600px;
-    margin: 0 auto 40px auto;
-    line-height: 1.6;
-}
-
-.cta-button {
-    background: #244b56;
-    color: white;
-    padding: 18px 40px;
-    border: none;
-    border-radius: 15px;
-    font-size: 1.1rem;
-    font-weight: bold;
-    cursor: pointer;
-    transition: transform 0.2s, background 0.2s;
-}
-
-.cta-button:hover {
-    transform: translateY(-3px);
-    background: #142023;
-}
-
-.lesson-container {
-    padding-bottom: 100px;
-    display: flex;
-    justify-content: center;
-}
+body { background: #e2e5e6; display: flex; flex-direction: column; min-height: 100vh; color: #1c1e21; }
 
 header { 
     background: #11282e; 
@@ -80,84 +16,210 @@ header {
 header nav a { 
     color: #eae5e5; 
     text-decoration: none; 
-    margin-left: 15px; 
+    margin-left: 10px; 
     font-weight: 600; 
-    font-size: 0.9rem; 
+    font-size: 0.9rem;
+    padding: 8px 16px; 
+    border-radius: 18px; 
+    transition: all 0.3s ease; 
 }
 
-main { flex: 1; display: flex; justify-content: center; align-items: center; padding: 20px; }
+header nav a:hover {
+    background-color: #bddae4; 
+    color: #11282e; 
+}
 
-.vocab-container { background: white; padding: 30px; border-radius: 20px; width: 100%; max-width: 800px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); }
-.vocab-table { width: 100%; border-collapse: collapse; margin-top: 20px; }
-.vocab-table th { text-align: left; padding: 15px; background: #f8f9fa; color: #636e72; font-size: 0.8rem; text-transform: uppercase; }
-.vocab-table td { padding: 15px; border-bottom: 1px solid #eee; }
-.audio-btn { background: #fab1a0; border: none; border-radius: 50%; width: 35px; height: 35px; cursor: pointer; transition: 0.2s; }
-.audio-btn:hover { transform: scale(1.1); }
+/* --- DASHBOARD LAYOUT (lessons.html) --- */
+.dashboard-wrapper {
+    display: block; /* Važno: da ne centrira sadržaj kao običan main */
+    width: 100%;
+    padding-bottom: 50px;
+}
 
-.lesson-card { background: white; padding: 40px; border-radius: 30px; width: 100%; max-width: 500px; text-align: center; box-shadow: 0 20px 40px rgba(0,0,0,0.1); }
-.badge { background: #dfe6e9; display: inline-block; padding: 5px 15px; border-radius: 20px; font-size: 0.8rem; font-weight: bold; margin-bottom: 20px; }
-.phrase-section { margin: 20px 0; }
-.lang-label { font-size: 0.7rem; color: #b2bec3; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 5px; }
-.german-box { background: #fff9f8; padding: 20px; border-radius: 15px; border-left: 5px solid #fab1a0; }
-.lesson-controls { display: flex; gap: 10px; margin-top: 30px; }
-.btn-audio, .btn-next { flex: 1; padding: 15px; border: none; border-radius: 12px; font-weight: bold; cursor: pointer; transition: 0.3s; }
-.btn-audio { background: #2d3436; color: white; }
-.btn-next { background: #fab1a0; color: #2d3436; }
-.progress { margin-top: 20px; font-size: 0.8rem; color: #b2bec3; }
+.dashboard-header {
+    text-align: center;
+    padding: 40px 20px;
+}
 
-footer { text-align: center; 
+.dashboard-header h1 {
+    font-size: 2.5rem;
+    color: #121e22;
+}
+
+.dashboard-grid {
+    display: grid;
+    grid-template-columns: 1.5fr 0.5fr; /* Lekcije šire, sidebar uži */
+    gap: 30px;
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 20px;
+    align-items: start;
+}
+
+/* --- MISSION ITEMS (Lekcije koje hoveraju) --- */
+.mission-item {
+    background: white;
+    padding: 25px;
+    border-radius: 20px;
+    border: 2px solid #eee;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: all 0.3s ease;
+    margin-bottom: 15px;
+}
+
+.mission-item:hover {
+    transform: translateX(10px); /* Pomak udesno na hover */
+    border-color: #fab1a0;
+    background-color: #fffaf9;
+    box-shadow: 5px 5px 15px rgba(0,0,0,0.05);
+}
+
+.mission-item.completed {
+    background: #fdfdfd;
+    border-color: #e0e0e0;
+    opacity: 0.6;
+}
+
+.status-tag {
+    font-size: 0.7rem;
+    font-weight: bold;
+    padding: 5px 12px;
+    border-radius: 10px;
+    background: #dfe6e9;
+}
+
+.completed .status-tag {
+    background: #55efc4;
+    color: #00b894;
+}
+
+/* --- SIDEBAR --- */
+.sidebar {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.sidebar-box {
+    background: white;
+    padding: 20px;
+    border-radius: 20px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+}
+
+.progress-bar-container {
+    background: #f0f2f5;
+    height: 10px;
+    border-radius: 5px;
+    overflow: hidden;
+    margin: 10px 0;
+}
+
+.progress-fill {
+    background: #55efc4;
+    height: 100%;
+    width: 0%; /* JS ovo puni */
+    transition: width 0.5s ease;
+}
+
+.quiz-cta {
+    display: block;
+    text-align: center;
+    background: #fab1a0;
+    color: #2d3436;
+    text-decoration: none;
+    padding: 12px;
+    border-radius: 12px;
+    font-weight: bold;
+    transition: 0.2s;
+}
+
+.quiz-cta:hover { background: #2d3436; color: white; }
+/* --- HOME PAGE CTA BUTTON --- */
+.cta-button {
+    background: #244b56; /* Tvoja tamna boja */
+    color: white;
+    padding: 20px 35px; /* Malo veći i elegantniji */
+    border: none;
+    border-radius: 18px; /* Zaobljeni rubovi koji izgledaju moderno */
+    font-size: 1rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); /* Fluidna animacija */
+    box-shadow: 0 10px 20px rgba(36, 75, 86, 0.2);
+    margin-top: 10px;
+    display: inline-block;
+    text-decoration: none;
+}
+
+.cta-button:hover {
+    background: #142023; /* Još tamnija na hover */
+    transform: translateY(-2px) scale(1.01); /* Lagano skoči i poveća se */
+    box-shadow: 0 15px 30px rgba(20, 32, 35, 0.3);
+}
+
+/* Osiguraj da Hero sekcija ima dovoljno mjesta */
+.hero-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+}
+
+/* --- HERO SECTION (index.html) --- */
+.hero {
+    height: 80vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 0 20px;
+}
+
+.hero-content h1 { font-size: 3.5rem; color: #121e22; }
+.highlight { color: #3e0c01; }
+.love-note { 
+    font-size: 1.2rem; 
+    color: #151819; 
+    max-width: 600px; 
+    margin: 20px auto 20px auto; }
+
+/* --- VOCABULARY & CARDS --- */
+.vocab-container, .lesson-card { 
+    background: white; 
+    padding: 30px; 
+    border-radius: 20px; 
+    margin: 20px auto;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.05); 
+}
+
+.german-box { 
+    background: #fff9f8; 
+    padding: 20px; 
+    border-radius: 15px; 
+    border-left: 5px solid #fab1a0; 
+    margin: 15px 0;
+}
+
+/* --- FOOTER --- */
+footer { 
+    text-align: center; 
     padding: 20px; 
     color: #55666d; 
-    font-size: 0.8rem; 
+    background: #bddae4;
+    margin-top: auto;
 }
 
-
-@media (max-width: 600px) {
-    /* Smanjujemo naslov da ne zauzme cijeli ekran mobitela */
-    .hero-content h1 {
-        font-size: 2.2rem; 
-        line-height: 1.2;
-    }
-
-    /* Smanjujemo tvoju poruku da stane u komadu */
-    .love-note {
-        font-size: 1rem;
-        padding: 0 10px;
-        margin-bottom: 30px;
-    }
-
-    /* Gumb radimo malo širim da ga je lakše stisnuti palcem */
-    .cta-button {
-        width: 100%;
-        max-width: 280px;
-        padding: 15px 20px;
-        font-size: 1rem;
-    }
-
-    /* Header na mobitelu - smanjujemo razmake */
-    header {
-        padding: 1rem 3%;
-        flex-direction: column; /* Logo iznad linkova */
-        gap: 10px;
-    }
-
-    header nav {
-        gap: 10px;
-    }
-
-    header nav a {
-        font-size: 0.8rem;
-    }
-
-    /* Kartica lekcije na mobitelu - da ne bude preširoka */
-    .lesson-card {
-        padding: 25px 20px;
-        margin: 10px;
-        border-radius: 20px;
-    }
-
-    /* Naslovi unutar lekcije */
-    .phrase-section h2 {
-        font-size: 1.3rem;
-    }
+/* --- RESPONSIVE (Mobitel) --- */
+@media (max-width: 800px) {
+    .dashboard-grid { grid-template-columns: 1fr; }
+    .sidebar { order: -1; }
+    .hero-content h1 { font-size: 2.2rem; }
+    header { flex-direction: column; gap: 10px; }
+    .mission-item:hover { transform: none; }
 }

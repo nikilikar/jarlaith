@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Big Quiz | Jarlaith's German</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .option-btn {
+            width: 100%;
+            padding: 15px;
+            margin: 8px 0;
+            border: 2px solid #eee;
+            border-radius: 12px;
+            background: white;
+            cursor: pointer;
+            font-weight: 600;
+            transition: 0.2s;
+        }
+        .option-btn:hover { background: #fffaf9; border-color: #fab1a0; }
+        .correct { background: #55efc4 !important; border-color: #00b894 !important; color: white; }
+        .wrong { background: #ff7675 !important; border-color: #d63031 !important; color: white; }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo">⚡ Knowledge Check</div>
+        <nav><a href="lessons.html">Back to Dashboard</a></nav>
+    </header>
+
+    <main style="display: flex; justify-content: center; align-items: center; min-height: 80vh;">
+        <div class="lesson-card" id="quiz-card">
+            <div class="badge">CHALLENGE TIME</div>
+            <h2 id="quiz-question" style="margin: 20px 0;">How do you say "I love your energy"?</h2>
+            
+            <div id="quiz-options">
+                </div>
+
+            <p id="quiz-feedback" style="margin-top: 20px; font-weight: bold; min-height: 24px;"></p>
+            <button id="next-quiz-btn" class="cta-button" style="display:none; width: 100%; margin-top: 20px;" onclick="loadNextQuestion()">Next Question</button>
+        </div>
+    </main>
+
+    <script>
+        const quizData = [
+            { q: "How do you ask for a beer?", a: ["Ich bin Jarlaith", "Ein Bier, bitte!", "Wo ist die Uni?"], correct: 1 },
+            { q: "What do you say to a 'Big Booty Latina'?", a: ["Guten Morgen", "Ich liebe tvoja energija", "Ich liebe deine Energie"], correct: 2 },
+            { q: "You lost your friends. What now?", a: ["Ich habe meine Freunde verloren", "Noch eine Runde!", "Die Rechnung, bitte"], correct: 0 }
+        ];
+
+        let currentQ = 0;
+
+        function loadQuestion() {
+            const data = quizData[currentQ];
+            document.getElementById('quiz-question').innerText = data.q;
+            const optionsContainer = document.getElementById('quiz-options');
+            optionsContainer.innerHTML = '';
+            document.getElementById('quiz-feedback').innerText = '';
+            document.getElementById('next-quiz-btn').style.display = 'none';
+
+            data.a.forEach((opt, index) => {
+                const btn = document.createElement('button');
+                btn.className = 'option-btn';
+                btn.innerText = opt;
+                btn.onclick = () => checkQuizAnswer(index, btn);
+                optionsContainer.appendChild(btn);
+            });
+        }
+
+        function checkQuizAnswer(index, btn) {
+            const correctIdx = quizData[currentQ].correct;
+            const allBtns = document.querySelectorAll('.option-btn');
+            allBtns.forEach(b => b.disabled = true);
+
+            if(index === correctIdx) {
+                btn.classList.add('correct');
+                document.getElementById('quiz-feedback').innerText = "✅ Legend! You got it.";
+            } else {
+                btn.classList.add('wrong');
+                allBtns[correctIdx].classList.add('correct');
+                document.getElementById('quiz-feedback').innerText = "❌ Close! But Germany says no.";
+            }
+            document.getElementById('next-quiz-btn').style.display = 'block';
+        }
+
+        function loadNextQuestion() {
+            currentQ++;
+            if(currentQ < quizData.length) {
+                loadQuestion();
+            } else {
+                document.getElementById('quiz-card').innerHTML = "<h2>🎉 Quiz Finished!</h2><p>Jarlaith, you're ready to conquer Erasmus! Niki is proud of you. ❤️</p><br><a href='lessons.html' class='quiz-cta'>Back to Dashboard</a>";
+            }
+        }
+
+        loadQuestion();
+    </script>
+</body>
+</html>
