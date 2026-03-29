@@ -7,42 +7,28 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <main>
-        <div class="vocab-container">
-            <h1 class="page-title">Essential Vocabulary 📚</h1>
-            <p class="subtitle">English to German survival phrases</p>
-            
-            <table class="vocab-table">
-                <thead>
-                    <tr>
-                        <th>English</th>
-                        <th>German</th>
-                        <th>Listen</th>
-                    </tr>
-                </thead>
-                <tbody id="vocab-body">
-                    <tr>
-                        <td>Hello / Good day</td>
-                        <td>Guten Tag</td>
-                        <td><button class="audio-btn" onclick="speak('Guten Tag')">🔊</button></td>
-                    </tr>
-                    <tr>
-                        <td>I am from Ireland</td>
-                        <td>Ich komme aus Irland</td>
-                        <td><button class="audio-btn" onclick="speak('Ich komme aus Irland')">🔊</button></td>
-                    </tr>
-                    <tr>
-                        <td>Where is the tram?</td>
-                        <td>Wo ist die Straßenbahn?</td>
-                        <td><button class="audio-btn" onclick="speak('Wo ist die Straßenbahn')">🔊</button></td>
-                    </tr>
-                    <tr>
-                        <td>Check, please!</td>
-                        <td>Die Rechnung, bitte!</td>
-                        <td><button class="audio-btn" onclick="speak('Die Rechnung, bitte')">🔊</button></td>
-                    </tr>
-                </tbody>
-            </table>
+    <main class="dashboard-wrapper">
+        <div class="page-title">
+            <h1>Vocabulary Vault 📚</h1><br>
+            <button onclick="startFlashcards('all')" class="btn-nav">⚡ Practice All Flashcards</button>
+        </div>
+
+        <div id="vocab-category-list" class="dashboard-grid">
+            </div>
+
+        <div id="flashcard-modal" class="modal" style="display:none;">
+            <div class="flashcard-container">
+                <div class="flashcard" id="current-card" onclick="flipCard()">
+                    <div class="card-front" id="card-front">German Word</div>
+                    <div class="card-back" id="card-back">English Translation</div>
+                </div>
+                <div class="controls">
+                    <button onclick="prevCard()" class="btn-nav">←</button>
+                    <span id="card-counter">1 / 10</span>
+                    <button onclick="nextCard()" class="btn-nav">→</button>
+                </div>
+                <button onclick="closeFlashcards()" class="btn-nav">Close</button>
+            </div>
         </div>
     </main>
 

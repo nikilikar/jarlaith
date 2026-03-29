@@ -1,7 +1,15 @@
 /* --- OSNOVNE POSTAVKE --- */
 * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
 
-body { background: #e2e5e6; display: flex; flex-direction: column; min-height: 100vh; color: #1c1e21; }
+html, body {
+    height: 100%;
+}
+body { background: #fefff6; 
+    display: flex; 
+    flex-direction: column; 
+    min-height: 100vh; 
+    color: #1c1e21; 
+}
 
 header { 
     background: #11282e; 
@@ -148,6 +156,63 @@ header nav a:hover {
     color: white;
 }
 
+/*---- FLASH CARD KONTROLE ----*/
+/* Kontejner za strelice i brojač */
+.controls {
+    display: flex;
+    justify-content: center; /* Centrira cijelu grupu vodoravno */
+    align-items: center;     /* Poravnava gumbe i tekst u savršenu vodoravnu liniju */
+    gap: 20px;               /* Točan razmak između elemenata */
+    margin: 20px 0;
+}
+
+/* Stilizacija strelica (Next/Prev) */
+.btn-nav {
+    background: #fab1a0; /* Tvoja boja */
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 50px; /* Zaobljeni gumbi kao pilule */
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s;
+    min-width: 100px;    /* Da oba gumba budu iste širine bez obzira na tekst */
+}
+
+.btn-nav:hover {
+    background: #ff7675;
+    transform: translateY(-2px); /* Lagani skok kad prođeš mišem */
+}
+
+/* Stil za brojač (1 / 10) */
+#card-counter {
+    font-family: 'Poppins', sans-serif;
+    font-weight: bold;
+    font-size: 1.1rem;
+    color: #ffffff;
+    min-width: 60px;     /* Sprječava micanje gumba kad se broj promijeni */
+    text-align: center;
+}
+
+/* Stilizacija Close gumba (ispod strelica) */
+.btn-close {
+    display: block;      /* Ide u novi red */
+    margin: 30px auto 0;
+    background: none;
+    border: 2px solid #ff7675;
+    color: #ff7675;
+    padding: 8px 25px;
+    border-radius: 10px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: 0.3s;
+}
+
+.btn-close:hover {
+    background: #ff7675;
+    color: white;
+}
+
 /* --- SIDEBAR --- */
 .sidebar {
     display: flex;
@@ -199,15 +264,44 @@ header nav a:hover {
     align-items: center;
     width: 100%;
 }
+.dashboard-wrapper {
+    flex-grow: 1; /* Uzima sav prostor između headera i footera */
+    overflow-y: auto; /* SAMO SE OVAJ DIO SKROLA */
+    padding: 20px 10px;
+    -webkit-overflow-scrolling: touch; /* Glatko skrolanje na iPhoneu */
+}
 
+/* 1. Glavni kontejner koji drži Sidebar i Skrolajući dio */
 .dashboard-grid {
     display: grid;
-    grid-template-columns: 2fr 1fr; /* Lijevo kvizovi, desno XP */
+    grid-template-columns: 2fr 300px; 
     gap: 40px;
-    width: 90%;
-    max-width: 1000px;
-    margin: 40px auto; /* Centrira sve i miče od vrha */
-    align-items: start; /* Poravnava kartice po vrhu */
+    height: calc(100vh - 80px); /* Visina ekrana minus visina headera */
+    max-width: 95%;
+    margin: 0 auto;
+    margin-top: 30px;
+    overflow: hidden; /* Cijela mreža se ne miče */
+}
+
+/* 2. LIJEVA STRANA (Lekcije/Vokabular) - OVO SE SKROLA */
+#dashboard-container, #vocab-category-list {
+    overflow-y: auto; /* Dozvoli skrolanje samo ovdje */
+    height: 100%;
+    padding-right: 15px; /* Prostor za skrol bar da ne pokrije kartice */
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    width: 800px;
+}
+
+/* 3. DESNA STRANA (Sidebar) - OVO JE FIKSNO */
+.sidebar {
+    position: sticky;
+    top: 0;
+    height: fit-content;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
 }
 
 /* Veća i ljepša XP kartica */
@@ -328,13 +422,58 @@ header nav a:hover {
     border-left: 5px solid #fab1a0; 
     margin: 15px 0;
 }
+.flashcard-container {
+    perspective: 1000px;
+    text-align: center;
+}
+
+.flashcard {
+    width: 500px;
+    height: 200px;
+    transition: transform 0.6s;
+    transform-style: preserve-3d;
+    cursor: pointer;
+    position: relative;
+    margin: 20px auto;
+}
+
+.flashcard.flipped {
+    transform: rotateY(180deg);
+}
+
+.card-front, .card-back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    font-weight: bold;
+    border-radius: 15px;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+}
+
+.card-front { background: white; color: #2d3436; }
+.card-back { background: #fab1a0; color: white; transform: rotateY(180deg); }
+
+.modal {
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0,0,0,0.8);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
 
 /* --- FOOTER --- */
 footer { 
     text-align: center; 
     padding: 20px; 
     color: #55666d; 
-    background: #bddae4;
+    background: #c0d1d7;
     margin-top: auto;
 }
 
@@ -368,5 +507,17 @@ footer {
     header h1, .logo {
         font-size: 1.1rem !important;
         margin: 0;
+    }
+}
+
+@media (max-width: 900px) {
+    .dashboard-grid {
+        grid-template-columns: 1fr; /* Na mobitelu ide jedno ispod drugog */
+        height: auto;
+        overflow: visible;
+    }
+    .sidebar {
+        position: static;
+        order: -1; /* Sidebar ide na vrh na mobitelu */
     }
 }

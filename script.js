@@ -130,6 +130,8 @@ document.addEventListener("DOMContentLoaded", () => {
             actionBtn.onclick = () => window.location.href = 'quizzes.html';
         }
     }
+
+    if (document.getElementById('vocab-category-list')) renderVocabCategories();
 });
 
 function renderDashboard() {
@@ -382,4 +384,89 @@ function speakCurrent() {
     const utterance = new SpeechSynthesisUtterance(text);
     utterance.lang = 'de-DE';
     window.speechSynthesis.speak(utterance);
+}
+let vocabWords = []; // Trenutni set riječi u flashcards
+let currentCardIndex = 0;
+
+function renderVocabCategories() {
+    const container = document.getElementById('vocab-category-list');
+    if (!container) return;
+    container.innerHTML = '';
+
+    Object.entries(courseData).forEach(([key, data]) => {
+        // Preskačemo fill-blanks jer tamo nemamo klasične fraze (ili izvuci words)
+        const wordCount = data.phrases ? data.phrases.length : (data.words ? data.words.length : 0);
+        
+        const card = document.createElement('div');
+        card.className = 'mission-item available-style';
+        card.innerHTML = `
+            <div style="flex:1;">
+                <h3 style="margin:0;">${data.title}</h3>
+                <p style="margin:5px 0 0; font-size:0.8rem; color:#636e72;">${wordCount} items to review</p>
+            </div>
+            <button class="status-tag" style="border:none; cursor:pointer;" onclick="startFlashcards('${key}')">🗂️ Study</button>
+        `;
+        container.appendChild(card);
+    });
+}
+
+function startFlashcards(categoryKey) {
+    vocabWords = [];
+    
+    if (categoryKey === 'all') {
+        // Pokupi sve fraze iz svih lekcija
+        Object.values(courseData).forEach(cat => {
+            if (cat.phrases) vocabWords.push(...cat.phrases);
+        });
+    } else {
+        // Samo odabrana lekcija
+        vocabWords = courseData[categoryKey].phrases || [];
+    }
+
+    if (vocabWords.length === 0) return alert("No phrases in this section yet!");
+
+    currentCardIndex = 0;
+    document.getElementById('flashcard-modal').style.display = 'flex';
+    updateCardUI();
+}
+
+function updateCardUI() {
+    const card = vocabWords[currentCardIndex];
+    document.getElementById('card-front').innerText = card.german;
+    document.getElementById('card-back').innerText = card.english;
+    document.getElementById('card-counter').innerText = `${currentCardIndex + 1} / ${vocabWords.length}`;
+    
+    // Resetiraj kartu da prednja strana bude vidljiva
+    document.getElementById('current-card').classList.remove('flipped');
+}
+
+function flipCard() {
+    document.getElementById('current-card').classList.toggle('flipped');
+}
+
+// Dodaj u DOMContentLoaded
+
+function closeFlashcards() {
+    const modal = document.getElementById('flashcard-modal');
+    if (modal) {
+        modal.style.display = 'none';
+        
+        // Opcionalno: Resetiraj karticu na početak kad se zatvori
+        currentCardIndex = 0;
+        const card = document.getElementById('current-card');
+        if (card) card.classList.remove('flipped');
+    }
+}
+function nextCard() {
+    if (currentCardIndex < vocabWords.length - 1) {
+        currentCardIndex++;
+        updateCardUI();
+    }
+}
+
+function prevCard() {
+    if (currentCardIndex > 0) {
+        currentCardIndex--;
+        updateCardUI();
+    }
 }
