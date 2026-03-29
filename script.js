@@ -22,6 +22,30 @@ const courseData = {
             { english: "I lost my friends.", german: "Ich habe meine Freunde verloren." },
             { english: "Let's go to another club.", german: "Lass uns in einen anderen Club gehen." }
         ]
+    },
+    "history-expert": {
+        title: "🏛️ Dark History Tour",
+        phrases: [
+            { english: "I'm just a history buff!", german: "Ich bin nur ein Geschichtsfan!" },
+            { english: "That was a 'misunderstanding'.", german: "Das war ein 'Missverständnis'." },
+            { english: "Can we skip this museum?", german: "Können wir dieses Museum überspringen?" }
+        ]
+    },
+    "politics-101": {
+        title: "🦅 The Trump Logic",
+        phrases: [
+            { english: "Women would start a war!", german: "Frauen würden einen Krieg anfangen!" },
+            { english: "It's because of the hormones.", german: "Es liegt an den Hormonen." },
+            { english: "Make Erasmus Great Again!", german: "Mach Erasmus wieder großartig!" }
+        ]
+    },
+    "emergency-exit": {
+        title: "🏃‍♂️ Cancel Culture Escape",
+        phrases: [
+            { english: "It was just a joke, bro!", german: "Das war nur ein Witz, Bruder!" },
+            { english: "I am not a bad person.", german: "Ich bin kein schlechter Mensch." },
+            { english: "Don't post that on TikTok.", german: "Poste das nicht auf TikTok." }
+        ]
     }
 };
 
@@ -93,10 +117,14 @@ function renderDashboard() {
     container.innerHTML = ''; 
     completedLessons = JSON.parse(localStorage.getItem('completedLessons')) || [];
 
-    for (const [key, data] of Object.entries(courseData)) {
+    const keys = Object.entries(courseData);
+    
+    keys.forEach(([key, data], index) => {
+        // 1. Crtamo običnu lekciju
         const isDone = completedLessons.includes(key);
         const missionBox = document.createElement('div');
         missionBox.className = `mission-item ${isDone ? 'completed' : ''}`;
+        missionBox.id = `mission-${key}`;
         missionBox.onclick = () => startSpecificLesson(key);
         
         missionBox.innerHTML = `
@@ -107,36 +135,32 @@ function renderDashboard() {
             <div class="status-tag">${isDone ? '✓ Done' : 'New'}</div>
         `;
         container.appendChild(missionBox);
-    }
 
-    // Ako je riješio sve 3, pokaži Final Quiz gumb na dnu dashboarda
-    if (completedLessons.length >= 3) {
-        const quizBox = document.createElement('div');
-        quizBox.className = 'mission-item quiz-unlock-special'; 
-        quizBox.onclick = () => window.location.href = 'quizzes.html';
-        quizBox.innerHTML = `
-            <div>
-                <span style="font-size: 1.2rem; display: block; font-weight: bold;">🏆 Final Level 1 Quiz</span>
-                <span style="font-size: 0.8rem; color: #636e72;">Prove your German skills!</span>
-            </div>
-            <div class="status-tag" style="background: #fdcb6e; color: #d35400;">READY 🔥</div>
-        `;
-        container.appendChild(quizBox);
-    }
-    updateProgressSidebar();
+        // 2. PROVJERA: Ubaci kviz TOČNO nakon 3. lekcije (index je 2 jer kreće od 0)
+        if (index === 2 && completedLessons.length >= 3) {
+            const quizBox = document.createElement('div');
+            quizBox.className = 'mission-item quiz-unlock-special'; 
+            quizBox.onclick = () => window.location.href = 'quizzes.html';
+            quizBox.innerHTML = `
+                <div>
+                    <span style="font-size: 1.2rem; display: block; font-weight: bold;">🏆 Level 1: Final Test</span>
+                    <span style="font-size: 0.8rem; color: #636e72;">Unlock your first 100 XP!</span>
+                </div>
+                <div class="status-tag" style="background: #fdcb6e; color: #d35400;">READY 🔥</div>
+            `;
+            container.appendChild(quizBox);
+        }
+    });
 
-    if (lastCompletedElement) {
-        // Čekamo mrvicu da se sve iscrta, pa skrolamo
+    // Automatski skrol na zadnju/novu misiju
+    const firstNew = document.querySelector('.mission-item:not(.completed)');
+    if (firstNew) {
         setTimeout(() => {
-            lastCompletedElement.scrollIntoView({ 
-                behavior: 'smooth', // Da klizi, a ne da "skoči"
-                block: 'center'    // Stavi je u sredinu ekrana
-            });
-            
-            // Opcionalno: Dodaj mali sjaj toj zadnjoj lekciji da zna da je to TA
-            lastCompletedElement.style.boxShadow = "0 0 20px rgba(250, 177, 160, 0.5)";
+            firstNew.scrollIntoView({ behavior: 'smooth', block: 'center' });
         }, 300);
     }
+    
+    updateProgressSidebar();
 }
 
 // --- FUNKCIJE ZA LEKCIJE ---
