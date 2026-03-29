@@ -87,21 +87,31 @@ const quizList = [
 
 
 document.addEventListener("DOMContentLoaded", () => {
+    // 1. Prvo pokreni sve rendere
     if (document.getElementById('dashboard-container')) renderDashboard();
     if (document.getElementById('lesson-topic')) updateUI();
     if (document.getElementById('quiz-list-container')) renderQuizList();
     updateXPUI();
 
+    // 2. Logika za "Continue Learning" gumb (sve unutar istog listenera)
     const actionBtn = document.getElementById('main-action-btn');
     if (actionBtn) {
         const allKeys = Object.keys(courseData);
-        const nextKey = allKeys.find(k => !completedLessons.includes(k));
+        // Tražimo prvu lekciju koja NIJE u popisu završenih
+        const nextKey = allKeys.find(key => !completedLessons.includes(key));
+
         if (nextKey) {
             actionBtn.innerText = "Continue Learning →";
-            actionBtn.onclick = () => { localStorage.setItem('currentLessonKey', nextKey); window.location.href = 'training.html'; };
+            actionBtn.onclick = () => { 
+                localStorage.setItem('currentLessonKey', nextKey); 
+                // Resetiramo progress za tu novu lekciju na 0 da ne krene od početka
+                localStorage.setItem(nextKey + '_progress', 0);
+                window.location.href = 'training.html'; 
+            };
         } else {
-            actionBtn.innerText = "Review Progress →";
-            actionBtn.onclick = () => window.location.href = 'lessons.html';
+            // Ako su BAŠ SVE lekcije gotove
+            actionBtn.innerText = "All Missions Done! 🔥";
+            actionBtn.onclick = () => window.location.href = 'quizzes.html';
         }
     }
 });
