@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz Time | Jarlaith's German</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* Posebni stilovi samo za kviz opcije */
+        .quiz-options {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin: 25px 0;
+        }
+
+        .option-btn {
+            width: 100%;
+            padding: 18px;
+            border: 2px solid #eee;
+            border-radius: 15px;
+            background: white;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            transition: all 0.2s ease;
+            text-align: left;
+        }
+
+        .option-btn:hover:not(:disabled) {
+            border-color: #fab1a0;
+            background-color: #fffaf9;
+            transform: translateX(5px);
+        }
+
+        .option-btn.correct {
+            background-color: #55efc4 !important;
+            border-color: #00b894 !important;
+            color: white;
+        }
+
+        .option-btn.wrong {
+            background-color: #ff7675 !important;
+            border-color: #d63031 !important;
+            color: white;
+        }
+
+        #quiz-feedback {
+            font-weight: bold;
+            margin-bottom: 15px;
+            min-height: 20px;
+        }
+
+        .hidden { display: none; }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="logo">⚡ Level 1 Exam</div>
+        <nav><a href="quizzes.html">Exit Quiz</a></nav>
+    </header>
+
+    <main style="display: flex; justify-content: center; align-items: center; min-height: 85vh;">
+        <div class="lesson-card" id="quiz-card">
+            <div class="badge">MISSION: FINAL TEST</div>
+            
+            <h2 id="quiz-question" style="margin-top: 10px;">Loading question...</h2>
+            
+            <div id="quiz-options" class="quiz-options">
+                </div>
+
+            <div id="quiz-feedback"></div>
+
+            <button id="next-quiz-btn" class="cta-button hidden" style="width: 100%;" onclick="loadNextQuestion()">
+                Next Question →
+            </button>
+        </div>
+    </main>
+
+    <script>
+        // PODACI ZA KVIZ
+        const quizData = [
+            { 
+                q: "How do you ask for a beer properly?", 
+                a: ["Ich bin Jarlaith", "Ein Bier, bitte!", "Wo ist die Uni?"], 
+                correct: 1 
+            },
+            { 
+                q: "What's the best thing to say to a 'Big Booty Latina'?", 
+                a: ["Guten Morgen", "Ich liebe tvoja energija", "Ich liebe deine Energie"], 
+                correct: 2 
+            },
+            { 
+                q: "You lost your friends at the club. Help!", 
+                a: ["Ich habe meine Freunde verloren", "Noch jedna runda!", "Die Rechnung, bitte"], 
+                correct: 0 
+            }
+        ];
+
+        let currentQ = 0;
+
+        function loadQuestion() {
+            const data = quizData[currentQ];
+            const optionsContainer = document.getElementById('quiz-options');
+            const feedback = document.getElementById('quiz-feedback');
+            const nextBtn = document.getElementById('next-quiz-btn');
+
+            // Resetiraj UI
+            document.getElementById('quiz-question').innerText = data.q;
+            optionsContainer.innerHTML = '';
+            feedback.innerText = '';
+            nextBtn.classList.add('hidden');
+
+            // Stvori opcije
+            data.a.forEach((opt, index) => {
+                const btn = document.createElement('button');
+                btn.className = 'option-btn';
+                btn.innerText = opt;
+                btn.onclick = () => checkQuizAnswer(index, btn);
+                optionsContainer.appendChild(btn);
+            });
+        }
+
+        function checkQuizAnswer(selectedIndex, clickedBtn) {
+            const correctIdx = quizData[currentQ].correct;
+            const allBtns = document.querySelectorAll('.option-btn');
+            const feedback = document.getElementById('quiz-feedback');
+            const nextBtn = document.getElementById('next-quiz-btn');
+
+            // Onemogući ponovno klikanje
+            allBtns.forEach(btn => btn.disabled = true);
+
+            if (selectedIndex === correctIdx) {
+                clickedBtn.classList.add('correct');
+                feedback.innerText = "✅ Legend! You got it.";
+                feedback.style.color = "#00b894";
+            } else {
+                clickedBtn.classList.add('wrong');
+                allBtns[correctIdx].classList.add('correct'); // Pokaži točan odgovor
+                feedback.innerText = "❌ Close! But Germany says no.";
+                feedback.style.color = "#d63031";
+            }
+
+            nextBtn.classList.remove('hidden');
+        }
+
+        function loadNextQuestion() {
+            currentQ++;
+            if (currentQ < quizData.length) {
+                loadQuestion();
+            } else {
+                finishQuiz();
+            }
+        }
+
+        function finishQuiz() {
+            // DODJELA XP BODOVA
+            let currentXP = parseInt(localStorage.getItem('userXP')) || 0;
+            currentXP += 100;
+            localStorage.setItem('userXP', currentXP);
+
+            // ZAVRŠNI EKRAN
+            const card = document.getElementById('quiz-card');
+            card.innerHTML = `
+                <div style="font-size: 4rem; margin-bottom: 20px;">🏆</div>
+                <h2 style="font-size: 2rem; margin-bottom: 10px;">Quiz Finished!</h2>
+                <p style="font-size: 1.2rem; color: #244b56; font-weight: bold;">+100 XP Earned!</p>
+                <p style="margin: 20px 0; line-height: 1.6;">
+                    Jarlaith, you're ready to conquer Erasmus!<br>
+                    Niki is super proud of you. ❤️
+                </p>
+                <a href="lessons.html" class="cta-button" style="text-decoration: none; display: block;">Back to Missions</a>
+            `;
+        }
+
+        // Pokreni kviz odmah
+        loadQuestion();
+    </script>
+
+</body>
+</html>
