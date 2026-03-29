@@ -7,41 +7,49 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <header>
-        <div class="logo">🇩🇪 Jarlaith's German</div>
-        <nav>
-            <a href="index.html" class="active">Home</a>
-            <a href="vocabulary.html">Vocabulary</a>
-            <a href="lessons.html">Lessons</a>
-        </nav>
-    </header>
+    <main class="home-main">
+    <section id="welcome-hero" class="hero">
+        <div class="hero-content">
+            <span class="emoji-badge">👋 Willkommen, Jarlaith!</span>
+            <h1>Your personal <br><span class="highlight">German Journey</span></h1>
+            <p class="love-note">
+                I built this site to maybe help you with your German. I designed it so that you have 5-minute leessons a day.
+                You can do more than one in a day or none. Up to you! I put loads of stuff so I hope you enjoy.
+                Whether you're ordering a beer or picking up big booty latinas, I've got you covered. 
+                <br><strong>I love you! Niki ❤️</strong>
+            </p>
+            
+            <button class="cta-button" onclick="scrollToLessons()" id="main-action-btn">
+                Start Learning →
+            </button>
+        </div>
+    </section>
 
-    <main>
+    <section id="lesson-section" class="lesson-container" style="display: none;">
         <div class="lesson-card">
             <div class="badge" id="lesson-topic">Topic: Meeting People</div>
-            
             <div class="phrase-section">
                 <p class="lang-label">English</p>
                 <h2 id="english-text">Hello / Good day</h2>
             </div>
-
             <div class="phrase-section german-box">
                 <p class="lang-label">German</p>
                 <h2 id="german-text">Guten Tag!</h2>
             </div>
-            
             <div class="lesson-controls">
                 <button class="btn-audio" onclick="speakCurrent()">🔊 Listen</button>
                 <button class="btn-next" onclick="nextLesson()">Next Phrase →</button>
             </div>
-            <p class="progress" id="progress-text">Press Next to start!</p>
+            <p class="progress" id="progress-text">Phrase 1 of 4</p>
         </div>
-    </main>
+    </section>
+</main>
 
     <footer>
         Made with ❤️ for Jarlaith's Erasmus 2026
     </footer>
 
+    <script src="header.js"></script>
     <script src="script.js"></script>
 </body>
 </html>
