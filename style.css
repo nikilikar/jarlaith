@@ -484,31 +484,13 @@ footer {
         overflow: visible !important;
     }
 
+    /* 2. HEADER - vraćamo tvoj stari stil (samo ga malo centriramo) */
     header {
-        padding: 10px 5px !important; /* Smanjujemo bočni padding da dobijemo širinu */
-        width: 100%;
-        box-sizing: border-box;
-    }
-
-    .nav-links {
-        display: flex !important;
-        flex-direction: row !important; /* Prisiljavamo vodoravni red */
-        justify-content: center !important;
-        flex-wrap: nowrap !important;   /* ZABRANJUJEMO novi red */
-        gap: 5px !important;            /* Smanjujemo razmak između linkova */
-        width: 100%;
-    }
-
-    .nav-links a {
-        padding: 5px 8px !important;    /* Smanjujemo unutrašnji razmak linka */
-        font-size: 0.75rem !important;  /* Malo manji font da fizički stanu svi */
-        white-space: nowrap !important; /* Sprječava da se jedna riječ prelomi */
-    }
-
-    /* Ako je naslov "Jarlaith's German Journey" predugačak, smanji ga još malo */
-    header h1, .logo {
-        font-size: 0.9rem !important;
-        margin-bottom: 5px !important;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 10px !important;
+        gap: 4px;
     }
 
     /* 3. LAYOUT - jedna kolona bez Grid komplikacija */
