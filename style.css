@@ -552,4 +552,31 @@ footer {
         padding: 8px 15px !important;
         font-size: 0.9rem !important;
     }
+
+    #vocab-category-list {
+        display: flex !important;
+        flex-direction: column !important;
+        gap: 12px;
+        width: 100% !important;
+        height: 450px !important; /* Ista visina kao za Lessons */
+        overflow-y: auto !important;
+        padding: 10px !important;
+        box-sizing: border-box;
+        border: 1px solid #ddd;
+        border-radius: 15px;
+        background: rgba(0,0,0,0.02);
+    }
+
+    /* FIX ZA KVIZOVE: Razmak između kartica kvizova */
+    #quiz-list-container {
+        display: flex !important;
+        flex-direction: column !important;
+        gap: 20px !important; /* Ovdje dodajemo taj razmak koji fali */
+        padding-bottom: 30px;
+    }
+
+    /* Da kartice kvizova ne budu "zalijepljene" jedna za drugu */
+    .quiz-card, .mission-item.quiz-unlock-special {
+        margin-bottom: 10px !important;
+    }
 }
