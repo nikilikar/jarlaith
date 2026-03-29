@@ -24,6 +24,7 @@
     </head>
     <body>
 
+
     <main class="dashboard-wrapper">
         <div class="page-title">
             <h1>Challenge Center ⚡</h1>
@@ -31,8 +32,8 @@
         </div>
 
         <div class="dashboard-grid">
-            <section id="quiz-display" style="width: 100%;">
-                </section>
+            <section id="quiz-list-container" style="width: 100%;">
+            </section>
 
             <aside class="sidebar">
                 <div class="sidebar-box xp-card">
@@ -48,41 +49,27 @@
         </div>
     </main>
 
-    <script>
-    document.addEventListener("DOMContentLoaded", () => {
-        const quizDisplay = document.getElementById('quiz-display');
-     const completed = JSON.parse(localStorage.getItem('completedLessons')) || [];
-
-    // Provjera XP-a za sidebar
-        const currentXP = localStorage.getItem('userXP') || 0;
-        document.getElementById('total-xp').innerText = currentXP;
-
-       const isUnlocked = completed.length >= 3;
-
-       if (isUnlocked) {
-           quizDisplay.innerHTML = `
-               <div class="mission-item quiz-unlock-special" onclick="window.location.href='play-quiz.html'">
-                   <div>
-                       <span style="font-size: 1.2rem; display: block; font-weight: bold;">🏆 Level 1: Final Exam</span>
-                       <p style="font-size: 0.8rem; color: #636e72;">Reward: 100 XP + Niki's Kiss 💋</p>
-                   </div>
-                    <div class="status-tag" style="background: #fdcb6e; color: #d35400;">START 🔥</div>
-               </div>
-           `;
-       } else {
-           quizDisplay.innerHTML = `
-               <div class="mission-item completed" style="cursor: not-allowed; opacity: 0.7;">
-                   <div>
-                       <span style="font-size: 1.2rem; display: block; font-weight: bold; color: #b2bec3;">🔒 Level 1 Quiz</span>
-                       <p style="font-size: 0.8rem; color: #b2bec3;">Finish all 3 missions to unlock this.</p>
-                   </div>
-                   <div class="status-tag">LOCKED</div>
-               </div>
-           `;
-        }
-    });
-    </script>
+    <script src="script.js"></script>
     <script src="header.js"></script>
+    <script>
+document.addEventListener("DOMContentLoaded", () => {
+    // 1. Prvo ažuriraj XP i Sidebar
+    const currentXP = localStorage.getItem('userXP') || 0;
+    document.getElementById('total-xp').innerText = currentXP;
+    
+    // 2. Pozovi funkciju iz script.js koja crta kvizove
+    // Ona će sad pronaći "quiz-list-container" i nacrtati SVE kvizove iz quizList
+    if (typeof renderQuizList === "function") {
+        renderQuizList();
+    }
+});
+
+// Pomoćna funkcija koja mora postojati za klik
+function startQuiz(id) {
+    localStorage.setItem('activeQuizId', id);
+    window.location.href = 'play-quiz.html';
+}
+</script>
 
 </body>
 </html>

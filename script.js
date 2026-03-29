@@ -50,12 +50,17 @@ const courseData = {
     "stuttgart-cars": {
     type: "fill-blanks",
     title: "🚗 Stuttgart: City of Cars",
-    // Koristimo ID-ove [blank-X] umjesto crtica
     text: "[blank-0] in Stuttgart: Die Stadt der Autos. Stuttgart ist [blank-1] berühmte Stadt in Deutschland. Hier ist die Heimat von Mercedes-Benz und Porsche. Gottlieb Daimler hat hier im [blank-2] 1885 das erste Auto [blank-3]. Heute besuchen 440.000 Menschen pro Jahr das Mercedes-Benz Museum. In der Region Stuttgart [blank-4] Firmen viele Autos. Stuttgart ist das [blank-5] der Industrie. Das ist der perfekte Ort für einen [blank-6]! Aka as [blank-7]!",
-    // Riječi koje će se prikazivati u banki riječi (poredane abecedno ili nasumično da mu je teže)
     words: ["eine", "erfunden", "Herz", "Ingenieur", "Jahr", "Jarlaith", "produzieren", "Willkommen"],
-    // TOČNI odgovori, poredani kako se pojavljuju u tekstu (blank-0, blank-1, itd.)
     correctAnswers: ["Willkommen", "eine", "Jahr", "erfunden", "produzieren", "Herz", "Ingenieur", "Jarlaith"]
+    },
+    "cars-vocab": {
+        title: "🚗 Stuttgart: City of Cars pt.2",
+        phrases: [
+            { english: "Stuttgart is the home of Mercedes and Porsche.", german: "Stuttgart ist die Heimat von Mercedes und Porsche." },
+            { english: "Gottlieb Daimler invented the first car here.", german: "Gottlieb Daimler hat hier das erste Auto erfunden." },
+            { english: "I want to visit the Mercedes-Benz Museum.", german: "Ich möchte das Mercedes-Benz Museum besuchen." }
+        ]
     },
 };
 
@@ -64,11 +69,22 @@ let currentIndex = parseInt(localStorage.getItem(currentCategory + '_progress'))
 let completedLessons = JSON.parse(localStorage.getItem('completedLessons')) || [];
 let userXP = parseInt(localStorage.getItem('userXP')) || 0;
 
+
 const quizList = [
-    { id: "quiz-1", title: "Survival Basics Test", requiredMissions: 1, xpReward: 100 },
-    { id: "quiz-2", title: "The Latina Masterclass", requiredMissions: 2, xpReward: 150 },
-    { id: "quiz-3", title: "Party Animal Pro", requiredMissions: 3, xpReward: 200 }
+    {
+        id: "level-1-quiz",
+        title: "🥨 Basic Training Quiz",
+        requiredMissions: 3, // Otključava se nakon 3 lekcije
+        xpReward: 50
+    },
+    {
+        id: "stuttgart-cars-quiz",
+        title: "🚗 Stuttgart Master Quiz",
+        requiredMissions: 6, // Otključava se nakon 6 lekcija (3 nove + 3 stare)
+        xpReward: 100
+    }
 ];
+
 
 document.addEventListener("DOMContentLoaded", () => {
     if (document.getElementById('dashboard-container')) renderDashboard();
@@ -101,7 +117,6 @@ function renderDashboard() {
         const missionBox = document.createElement('div');
         missionBox.className = `mission-item ${isDone ? 'completed' : ''}`;
         
-        // POPRAVAK: Provjera ima li lekcija phrases ili type
         const infoText = data.type === 'fill-blanks' ? "Interactive Story" : `${data.phrases.length} phrases`;
 
         missionBox.innerHTML = `
@@ -114,11 +129,25 @@ function renderDashboard() {
         missionBox.onclick = () => { localStorage.setItem('currentLessonKey', key); window.location.href = 'training.html'; };
         container.appendChild(missionBox);
 
-        if (index === 2 && completedLessons.length >= 3) {
+        // --- DINAMIČKO UBACIVANJE KVIZOVA NA DASHBOARD ---
+        // Provjeravamo odgovara li trenutni index nekom kvizu iz quizList
+        // Index + 1 jer index kreće od 0 (0,1,2 -> to je 3. lekcija)
+        const matchingQuiz = quizList.find(q => q.requiredMissions === (index + 1));
+
+        if (matchingQuiz && completedLessons.length >= matchingQuiz.requiredMissions) {
             const quizBox = document.createElement('div');
             quizBox.className = 'mission-item quiz-unlock-special'; 
-            quizBox.onclick = () => window.location.href = 'quizzes.html';
-            quizBox.innerHTML = `<div><span style="font-weight:bold;">🏆 Level 1: Final Test</span></div><div class="status-tag" style="background:#fdcb6e;">READY</div>`;
+            quizBox.onclick = () => {
+                localStorage.setItem('activeQuizId', matchingQuiz.id);
+                window.location.href = 'quizzes.html';
+            };
+            quizBox.innerHTML = `
+                <div>
+                    <span style="font-weight:bold;">🏆 ${matchingQuiz.title}</span>
+                    <p style="font-size: 0.7rem; margin:0;">You unlocked a new challenge!</p>
+                </div>
+                <div class="status-tag" style="background:#fdcb6e; color:#d35400;">READY 🔥</div>
+            `;
             container.appendChild(quizBox);
         }
     });
@@ -240,14 +269,45 @@ function updateXPUI() {
 function renderQuizList() {
     const container = document.getElementById('quiz-list-container');
     if (!container) return;
-    container.innerHTML = '';
+
+    container.innerHTML = ''; // Očisti staro
+
+    // 1. Provjeri koliko je stvarno lekcija završeno
+    const completedMissions = JSON.parse(localStorage.getItem('completedLessons')) || [];
+    const userMissionCount = completedMissions.length;
+
+    // 2. Prođi kroz SVAKI kviz u listi i nacrtaj ga
     quizList.forEach(quiz => {
-        const isLocked = completedLessons.length < quiz.requiredMissions;
-        const box = document.createElement('div');
-        box.className = `mission-item ${isLocked ? 'locked' : ''}`;
-        box.innerHTML = `<div><b>${quiz.title}</b></div><div>${isLocked ? '🔒 Locked' : '🔥 Available'}</div>`;
-        if(!isLocked) box.onclick = () => window.location.href = 'play-quiz.html';
-        container.appendChild(box);
+        const isLocked = userMissionCount < quiz.requiredMissions;
+        
+        const quizBox = document.createElement('div');
+        // Dodajemo klase ovisno o statusu
+        quizBox.className = `mission-item ${isLocked ? 'locked-style' : 'available-style'}`;
+        
+        quizBox.innerHTML = `
+            <div style="flex: 1;">
+                <h3 style="margin:0; font-size: 1.1rem;">${quiz.title}</h3>
+                <p style="margin:5px 0 0; font-size: 0.8rem; color: #636e72;">
+                    ${isLocked ? `Need ${quiz.requiredMissions} missions to unlock` : `Reward: ${quiz.xpReward} XP`}
+                </p>
+            </div>
+            <div class="status-tag">
+                ${isLocked ? '🔒 Locked' : '🔥 Play'}
+            </div>
+        `;
+
+        // Ako nije zaključan, dopusti klik
+        if (!isLocked) {
+            quizBox.onclick = () => {
+                localStorage.setItem('activeQuizId', quiz.id);
+                window.location.href = 'play-quiz.html';
+            };
+        } else {
+            quizBox.style.opacity = "0.5";
+            quizBox.style.cursor = "not-allowed";
+        }
+
+        container.appendChild(quizBox);
     });
 }
 
