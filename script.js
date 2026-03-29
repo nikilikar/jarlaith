@@ -384,6 +384,7 @@ function speakCurrent() {
     const utterance = new SpeechSynthesisUtterance(text);
     utterance.lang = 'de-DE';
     window.speechSynthesis.speak(utterance);
+    
 }
 let vocabWords = []; // Trenutni set riječi u flashcards
 let currentCardIndex = 0;

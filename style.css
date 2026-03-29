@@ -195,6 +195,17 @@ header nav a:hover {
 }
 
 /* Stilizacija Close gumba (ispod strelica) */
+.btn-training {
+    background: none;
+    border: 2px solid #ff7675;
+    color: #ff7675;
+    padding: 8px 25px;
+    border-radius: 10px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: 0.3s;
+    margin-bottom: 10px;
+}
 .btn-close {
     display: block;      /* Ide u novi red */
     margin: 30px auto 0;
@@ -211,6 +222,10 @@ header nav a:hover {
 .btn-close:hover {
     background: #ff7675;
     color: white;
+}
+
+.lang-english {
+    padding: 10px;
 }
 
 /* --- SIDEBAR --- */
