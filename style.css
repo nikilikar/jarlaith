@@ -1,0 +1,28 @@
+* { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
+
+body { background: #f0f2f5; display: flex; flex-direction: column; min-height: 100vh; color: #1c1e21; }
+
+header { background: #2d3436; color: white; padding: 1rem 5%; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+header nav a { color: #fab1a0; text-decoration: none; margin-left: 15px; font-weight: 600; font-size: 0.9rem; }
+
+main { flex: 1; display: flex; justify-content: center; align-items: center; padding: 20px; }
+
+.vocab-container { background: white; padding: 30px; border-radius: 20px; width: 100%; max-width: 800px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); }
+.vocab-table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+.vocab-table th { text-align: left; padding: 15px; background: #f8f9fa; color: #636e72; font-size: 0.8rem; text-transform: uppercase; }
+.vocab-table td { padding: 15px; border-bottom: 1px solid #eee; }
+.audio-btn { background: #fab1a0; border: none; border-radius: 50%; width: 35px; height: 35px; cursor: pointer; transition: 0.2s; }
+.audio-btn:hover { transform: scale(1.1); }
+
+.lesson-card { background: white; padding: 40px; border-radius: 30px; width: 100%; max-width: 500px; text-align: center; box-shadow: 0 20px 40px rgba(0,0,0,0.1); }
+.badge { background: #dfe6e9; display: inline-block; padding: 5px 15px; border-radius: 20px; font-size: 0.8rem; font-weight: bold; margin-bottom: 20px; }
+.phrase-section { margin: 20px 0; }
+.lang-label { font-size: 0.7rem; color: #b2bec3; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 5px; }
+.german-box { background: #fff9f8; padding: 20px; border-radius: 15px; border-left: 5px solid #fab1a0; }
+.lesson-controls { display: flex; gap: 10px; margin-top: 30px; }
+.btn-audio, .btn-next { flex: 1; padding: 15px; border: none; border-radius: 12px; font-weight: bold; cursor: pointer; transition: 0.3s; }
+.btn-audio { background: #2d3436; color: white; }
+.btn-next { background: #fab1a0; color: #2d3436; }
+.progress { margin-top: 20px; font-size: 0.8rem; color: #b2bec3; }
+
+footer { text-align: center; padding: 20px; color: #b2bec3; font-size: 0.8rem; }

@@ -3,38 +3,30 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Jarlaith's German Journey 🇩🇪</title>
+    <title>Daily Lessons | Jarlaith's German</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <header>
-        <div class="logo">🇩🇪 Jarlaith's German</div>
-        <nav>
-            <a href="index.html" class="active">Home</a>
-            <a href="vocabulary.html">Vocabulary</a>
-            <a href="lessons.html">Lessons</a>
-        </nav>
-    </header>
-
     <main>
         <div class="lesson-card">
-            <div class="badge" id="lesson-topic">Topic: Meeting People</div>
+            <div class="badge" id="lesson-topic">Topic: Introductions</div>
             
             <div class="phrase-section">
                 <p class="lang-label">English</p>
-                <h2 id="english-text">Hello / Good day</h2>
+                <h2 id="english-text">I would like a beer, please.</h2>
             </div>
 
             <div class="phrase-section german-box">
                 <p class="lang-label">German</p>
-                <h2 id="german-text">Guten Tag!</h2>
+                <h2 id="german-text">Ich hätte gerne ein Bier, bitte.</h2>
             </div>
-            
+
             <div class="lesson-controls">
-                <button class="btn-audio" onclick="speakCurrent()">🔊 Listen</button>
+                <button class="btn-audio" onclick="speakCurrent()">🔊 Pronounce</button>
                 <button class="btn-next" onclick="nextLesson()">Next Phrase →</button>
             </div>
-            <p class="progress" id="progress-text">Press Next to start!</p>
+            
+            <p class="progress" id="progress-text">Lesson 1 of 3</p>
         </div>
     </main>
 
@@ -42,6 +34,7 @@
         Made with ❤️ for Jarlaith's Erasmus 2026
     </footer>
 
+    <script src="header.js"></script>
     <script src="script.js"></script>
 </body>
 </html>
