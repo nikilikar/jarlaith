@@ -478,20 +478,17 @@ footer {
 }
 
 /* --- RESPONSIVE (Mobitel) --- */
-@media (max-width: 800px) {
+@media (max-width: 600px) {
     .dashboard-grid { grid-template-columns: 1fr; }
     .sidebar { order: -1; }
     .hero-content h1 { font-size: 2.2rem; }
     header { flex-direction: column; gap: 10px; }
     .mission-item:hover { transform: none; }
-}
-
-@media (max-width: 600px) {
     header {
         padding: 19px;
         justify-content: center; /* Centriraj sve na mobitelu */
         flex-direction: column; /* Složi ime iznad linkova */
-        gap: 8px;
+        gap: 4px;
     }
 
     .nav-links {
@@ -508,9 +505,6 @@ footer {
         font-size: 1.1rem !important;
         margin: 0;
     }
-}
-
-@media (max-width: 900px) {
     .dashboard-grid {
         grid-template-columns: 1fr; /* Na mobitelu ide jedno ispod drugog */
         height: auto;
