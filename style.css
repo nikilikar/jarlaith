@@ -110,3 +110,54 @@ footer { text-align: center;
     color: #55666d; 
     font-size: 0.8rem; 
 }
+
+
+@media (max-width: 600px) {
+    /* Smanjujemo naslov da ne zauzme cijeli ekran mobitela */
+    .hero-content h1 {
+        font-size: 2.2rem; 
+        line-height: 1.2;
+    }
+
+    /* Smanjujemo tvoju poruku da stane u komadu */
+    .love-note {
+        font-size: 1rem;
+        padding: 0 10px;
+        margin-bottom: 30px;
+    }
+
+    /* Gumb radimo malo širim da ga je lakše stisnuti palcem */
+    .cta-button {
+        width: 100%;
+        max-width: 280px;
+        padding: 15px 20px;
+        font-size: 1rem;
+    }
+
+    /* Header na mobitelu - smanjujemo razmake */
+    header {
+        padding: 1rem 3%;
+        flex-direction: column; /* Logo iznad linkova */
+        gap: 10px;
+    }
+
+    header nav {
+        gap: 10px;
+    }
+
+    header nav a {
+        font-size: 0.8rem;
+    }
+
+    /* Kartica lekcije na mobitelu - da ne bude preširoka */
+    .lesson-card {
+        padding: 25px 20px;
+        margin: 10px;
+        border-radius: 20px;
+    }
+
+    /* Naslovi unutar lekcije */
+    .phrase-section h2 {
+        font-size: 1.3rem;
+    }
+}
