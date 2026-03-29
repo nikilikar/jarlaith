@@ -346,3 +346,27 @@ footer {
     header { flex-direction: column; gap: 10px; }
     .mission-item:hover { transform: none; }
 }
+
+@media (max-width: 600px) {
+    header {
+        padding: 19px;
+        justify-content: center; /* Centriraj sve na mobitelu */
+        flex-direction: column; /* Složi ime iznad linkova */
+        gap: 8px;
+    }
+
+    .nav-links {
+        gap: 10px; /* Smanji razmak između linkova da stanu u jedan red */
+        font-size: 0.8rem;
+    }
+
+    .nav-links a {
+        padding: 5px; /* Veća površina za prst, ali manji font */
+    }
+
+    /* Ako imaš logo ili naslov, smanji ga malo */
+    header h1, .logo {
+        font-size: 1.1rem !important;
+        margin: 0;
+    }
+}
