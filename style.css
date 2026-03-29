@@ -490,7 +490,7 @@ footer {
         flex-direction: column;
         align-items: center;
         padding: 15px !important;
-        gap: 10px;
+        gap: 4px;
     }
 
     /* 3. LAYOUT - jedna kolona bez Grid komplikacija */
