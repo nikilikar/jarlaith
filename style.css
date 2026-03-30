@@ -546,10 +546,6 @@ footer {
         gap: 4px;
     }
 
-    .highlight {
-        font-size: medium;
-    }
-
     /* 3. LAYOUT - jedna kolona bez Grid komplikacija */
     .dashboard-grid {
         display: flex !important;
@@ -635,5 +631,9 @@ footer {
     /* Da kartice kvizova ne budu "zalijepljene" jedna za drugu */
     .quiz-card, .mission-item.quiz-unlock-special {
         margin-bottom: 10px !important;
+    }
+
+    .highlight{
+        font-size: 3rem;
     }
 }
