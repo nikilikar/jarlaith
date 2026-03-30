@@ -546,6 +546,10 @@ footer {
         gap: 4px;
     }
 
+    .highlight {
+        font-size: medium;
+    }
+
     /* 3. LAYOUT - jedna kolona bez Grid komplikacija */
     .dashboard-grid {
         display: flex !important;
