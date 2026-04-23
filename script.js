@@ -24,7 +24,7 @@ const courseData = {
         ]
     },
     "history-expert": {
-        title: "🏛️ Dark History Tour",
+        title: "🏛️ History Tour",
         phrases: [
             { english: "I'm just a history buff!", german: "Ich bin nur ein Geschichtsfan!" },
             { english: "That was a 'misunderstanding'.", german: "Das war ein 'Missverständnis'." },
@@ -63,6 +63,7 @@ const courseData = {
         ]
     },
 };
+
 
 let currentCategory = localStorage.getItem('currentLessonKey') || "basic-survival";
 let currentIndex = parseInt(localStorage.getItem(currentCategory + '_progress')) || 0;

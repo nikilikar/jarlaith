@@ -734,28 +734,69 @@ footer {
     .highlight{
         font-size: 3rem;
     }
-
-    .hero {
-        padding: 60px 8%;
-        text-align: left; /* Porsche često drži lijevo poravnanje i na mobu */
-        flex-direction: column;
-        align-items: flex-start;
+    /* Umjesto da gumb stoji fiksno u tekstu, 
+       možeš ga staviti da "lebdi" na dnu ekrana */
+    .hero-action {
+        position: sticky;
+        bottom: 20px;
+        width: 100%;
+        padding: 0 6%;
+        z-index: 10;
     }
-
-    .hero h1 {
-        font-size: 3rem; /* Značajno smanji naslov */
-        letter-spacing: -2px; /* Manje zbijeno da bude čitljivije */
-        line-height: 1;
-    }
-
     .description {
         font-size: 0.95rem; /* Manji font za tekst */
         line-height: 1.5;
     }
+    .hero {
+        padding: 60px 25px !important; 
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start; /* Poravnanje lijevo, ne centrirano */
+        text-align: left;
+        min-height: 80vh; /* Drži sadržaj gore, ostavlja zrak dolje */
+    }
 
+    /* Willkommen tag - manji i suptilniji */
+    .emoji-badge {
+        font-size: 0.65rem !important;
+        letter-spacing: 1px !important;
+        margin-bottom: 10px !important;
+        opacity: 0.7;
+    }
+
+    /* Naslov - smanjen da stane u max 3-4 reda, a ne 6 */
+    .hero h1 {
+        font-size: 2.4rem !important; 
+        line-height: 1.0 !important;
+        letter-spacing: -1.5px !important;
+        margin-bottom: 25px !important;
+    }
+
+    /* Glavni tekst - manji font i veći prored (line-height) */
+    .love-note {
+        font-size: 0.95rem !important;
+        line-height: 1.6 !important;
+        color: #444;
+        max-width: 100%;
+        margin-bottom: 30px !important;
+    }
+
+    /* Gumb - elegantniji i tanji */
     .cta-button {
-        width: 100%; /* Gumb preko cijele širine na mobitelu izgleda jako pro */
-        padding: 20px;
+        width: 100% !important;
+        padding: 18px !important;
+        font-size: 0.8rem !important;
+        letter-spacing: 1.5px !important;
+        border-radius: 4px; /* Blago zaobljeni rubovi za moderniji look */
+    }
+
+    /* Sređivanje footera da ne "visi" */
+    footer {
+        padding: 20px 25px !important;
+        background: transparent !important; /* Makni tu sivu traku, neka bude bijelo */
+        border-top: 1px solid #eee;
+        font-size: 0.7rem !important;
         text-align: center;
+        margin-top: auto; /* Gura ga na dno */
     }
 }
