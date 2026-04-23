@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Training Ground | Jarlaith's German</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <main style="display: flex; justify-content: center; align-items: center; min-height: 80vh;">
+    <div class="lesson-card">
+        <div class="badge" id="lesson-topic">Loading Mission...</div>
+        
+        <div id="fill-blanks-section" style="display: none;">
+            <div class="word-bank" id="word-bank"></div>
+            <p id="story-text" class="story-paragraph"></p>
+        </div>
+        
+        <div id="phrase-section-container">
+            <div class="phrase-section">
+                <p class="lang-label lang-english">English</p>
+                <h2 id="english-text">---</h2>
+            </div>
+            <div class="phrase-section german-box">
+                <p class="lang-label">German</p>
+                <h2 id="german-text">---</h2>
+            </div>
+        </div>
+
+        <div class="lesson-controls">
+            <button class="btn-audio btn-training" id="audio-btn" onclick="speakCurrent()">🔊 Pronounce</button>
+            <button class="btn-next btn-training" id="next-btn" onclick="nextLesson()">Next Phrase →</button>
+        </div>
+        
+        <p class="progress" id="progress-text">Phrase 1 of X</p>
+        
+        <a href="lessons.html" style="display: block; margin-top: 20px; color: #55666d; text-decoration: none; font-size: 0.8rem;">← Back to Missions</a>
+    </div>
+</main>
+
+    <script src="header.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>

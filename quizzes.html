@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Big Quiz | Jarlaith's German</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .option-btn {
+            width: 100%;
+            padding: 15px;
+            margin: 8px 0;
+            border: 2px solid #eee;
+            border-radius: 12px;
+            background: white;
+            cursor: pointer;
+            font-weight: 600;
+            transition: 0.2s;
+        }
+        .option-btn:hover { background: #fffaf9; border-color: #fab1a0; }
+        .correct { background: #55efc4 !important; border-color: #00b894 !important; color: white; }
+        .wrong { background: #ff7675 !important; border-color: #d63031 !important; color: white; }
+    </style>
+    </head>
+    <body>
+
+
+    <main class="dashboard-wrapper">
+        <div class="page-title">
+            <h1>Challenge Center ⚡</h1>
+            <p>Complete missions to unlock new tests!</p>
+        </div>
+
+        <div class="dashboard-grid">
+            <section id="quiz-list-container" style="width: 100%;">
+            </section>
+
+            <aside class="sidebar">
+                <div class="sidebar-box xp-card">
+                    <h3>Your Experience</h3>
+                    <div class="xp-display"><span id="total-xp">0</span> <small>XP</small></div>
+                    <p id="rank-text" style="font-weight: bold; font-size: 1.1rem;">Beginner Traveler 🥨</p>
+
+                    <div class="progress-bar-container" style="margin-top: 20px;">
+                        <div id="xp-bar" class="progress-fill" style="width: 0%; background: #fdcb6e;"></div>
+                    </div>
+                </div>
+            </aside>
+        </div>
+    </main>
+
+    <footer>
+        Made with ❤️ for Jarlaith's Erasmus 2026
+    </footer>
+
+    <script src="script.js"></script>
+    <script src="header.js"></script>
+    <script>
+document.addEventListener("DOMContentLoaded", () => {
+    // 1. Prvo ažuriraj XP i Sidebar
+    const currentXP = localStorage.getItem('userXP') || 0;
+    document.getElementById('total-xp').innerText = currentXP;
+    
+    // 2. Pozovi funkciju iz script.js koja crta kvizove
+    // Ona će sad pronaći "quiz-list-container" i nacrtati SVE kvizove iz quizList
+    if (typeof renderQuizList === "function") {
+        renderQuizList();
+    }
+});
+
+// Pomoćna funkcija koja mora postojati za klik
+function startQuiz(id) {
+    localStorage.setItem('activeQuizId', id);
+    window.location.href = 'play-quiz.html';
+}
+</script>
+
+</body>
+</html>
